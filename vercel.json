@@ -1,11 +1,12 @@
 {
   "functions": {
-    "api/*.js": {
-      "runtime": "nodejs20.x"
+    "api/**/*.js": {
+      "runtime": "nodejs@22.x"
     }
   },
-  "routes": [
-    { "src": "/api/(.*)", "dest": "/api/$1" },
-    { "src": "/(.*)", "dest": "/$1" }
-  ]
+  "build": {
+    "env": {
+      "NODE_ENV": "production"
+    }
+  }
 }
