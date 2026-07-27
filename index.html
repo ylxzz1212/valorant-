@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh‑CN">
+<head>
+<meta charset="UTF‑8">
+<title>无畏契约灵敏度换算器</title>
+<style>
+*{box-sizing:border-box;font-family:system-ui}
+body{max-width:600px;margin:40px auto;padding:0 20px;background:#111;color:#eee}
+.box{background:#222;padding:20px;border-radius:12px;margin:12px 0}
+input{width:100%;padding:10px;margin:8px 0;background:#333;border:none;color:#fff;border-radius:6px;font-size:16px}
+button{padding:12px;width:100%;background:#fa5555;color:white;border:none;border-radius:8px;font-size:16px}
+#result{margin-top:12px;color:#8cf}
+#lock{display:none;background:#3a2222;padding:16px;border-radius:10px;margin-top:20px}
+</style>
+</head>
+<body>
+<h1>无畏契约灵敏度生成器</h1>
+<div class="box">
+<label>CS2 灵敏度</label>
+<input id="cs" placeholder="输入CS2灵敏度">
+<label>DPI</label>
+<input id="dpi" placeholder="鼠标DPI">
+<button onclick="calc()">计算Valorant灵敏度</button>
+<div id="result"></div>
+</div>
+<div id="lock">
+<h3>🔒 解锁完整高级换算</h3>
+<p>支付后解锁更多游戏互转、保存方案</p >
+<button onclick="pay()">立即解锁 ¥9.9</button>
+</div>
+<script src="paywall.js"></script>
+<script>
+function calc(){
+  const cs=parseFloat(document.getElementById('cs').value)||1;
+  const dpi=parseFloat(document.getElementById('dpi').value)||800;
+  const valo=cs*0.022;
+  document.getElementById('result').innerText=`Valorant灵敏度：${valo.toFixed(3)}`;
+  checkLock();
+}
+function checkLock(){
+  fetch('/api/order‑status').then(r=>r.json()).then(res=>{
+    if(res.paid){
+      document.getElementById('lock').style.display='none'
+    }else{
+      document.getElementById('lock').style.display='block'
+    }
+  })
+}
+function pay(){
+  fetch('/api/create‑order').then(r=>r.json()).then(data=>{
+    if(data.url)window.open(data.url)
+  })
+}
+checkLock();
+</script>
+</body>
+</html>
